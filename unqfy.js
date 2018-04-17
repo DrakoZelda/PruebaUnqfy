@@ -114,11 +114,10 @@ class UNQfy {
   }
 
   getAllAlbums() {
-    let allAlbums = this.artistas.reduce(function(a1,a2) {
-      return a1.albums.concat(a2.albums);
-    });
+    let albumes = [];
+    this.artistas.forEach(a => albumes.concat(a.albums));
 
-    return allAlbums;
+    return albumes;
   }
 
   getAllTracks() {
@@ -132,6 +131,12 @@ class UNQfy {
 
     //Retorno un Array formado en base al Set
     return Array.from(allTracksSinRepetidos);
+    //return [...allTracksSinRepetidos];
+    //return allTracksSinRepetidos;
+    /*let array = [];
+    allTracksSinRepetidos.forEach(v => array.push(v));
+    return array;
+    */
   }
 
   /*
@@ -144,7 +149,9 @@ class UNQfy {
   */
   getAlbumByName(name) {
     let allAlbums = this.getAllAlbums();
-    console.log("allAlbums: -- " + allAlbums);
+   /*console.log("allAlbums: -- " + allAlbums);
+    console.log("tipo de allAlbums: --" + typeof(allAlbums));
+    console.log("tipo de array: -- " + typeof([]))*/
     let album = allAlbums.filter(alb => alb.name === name);
     let ret;
 
