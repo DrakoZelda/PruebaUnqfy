@@ -12,13 +12,20 @@ class PlayList {
     }
 
     duration() {
-        return this.tracks.reduce(function(t1,t2) {
+        /*return this.tracks.reduce(function(t1,t2) {
             return t1.duration + t2.duration;
-        });
+        },0);*/
+        let duracion = 0;
+        this.tracks.forEach(track => duracion += track.duration);
+        return duracion;
     }
 
     hasTrack(aTrack) {
         return this.tracks.indexOf(aTrack) !== -1;
+    }
+
+    agregarTrack(track) {
+        this.tracks.push(track);
     }
 }
 

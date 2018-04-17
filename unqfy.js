@@ -221,7 +221,19 @@ class UNQfy {
       * un metodo duration() que retorne la duración de la playlist.
       * un metodo hasTrack(aTrack) que retorna true si aTrack se encuentra en la playlist
     */
+   //console.log(genresToInclude);
+   let cancionesPosibles = this.getTracksMatchingGenres(genresToInclude);
+   //console.log(cancionesPosibles);
 
+   let playListArmada = new Playlist(name, []);
+   //console.log(playListArmada.duration());
+   //console.log(maxDuration)
+   while (playListArmada.duration()<maxDuration) {
+     playListArmada.agregarTrack(cancionesPosibles.pop())
+     //console.log(playListArmada.tracks)
+     //console.log("duracion: "+playListArmada.duration());
+   }
+   this.playlists.push(playListArmada);
   }
 
   save(filename = 'unqfy.json') {
@@ -231,7 +243,7 @@ class UNQfy {
   static load(filename = 'unqfy.json') {
     const fs = new picklejs.FileSerializer();
     // TODO: Agregar a la lista todas las clases que necesitan ser instanciadas
-    const classes = [UNQfy];
+    const classes = [UNQfy,Artista,Playlist,Track,Album];
     fs.registerClasses(...classes);
     return fs.load(filename);
   }

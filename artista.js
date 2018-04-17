@@ -35,7 +35,8 @@ class Artista {
             tracks = new Array(...tracks,...elem.tracks);
         });
         //return Array.from(tracks);
-        return tracks;
+        let sinRepetidos = new Set(tracks);
+        return Array.from(sinRepetidos);
     }
 }
 
