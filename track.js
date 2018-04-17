@@ -36,7 +36,20 @@ class Track {
     }
 
     esGenero(genero) {
-        return this.genres === genero;
+        return this.genres.indexOf(genero)!==-1;
+    }
+
+    esDeAlgunGenero(generos){
+         //recibe una lista de genero
+        let ret = false;
+        generos.forEach(element => {
+            ret = ret || (this.genres === genero);
+        });
+        return ret;
+    }
+
+    soyUnTrack(){
+        return true;
     }
 
 }

@@ -35,17 +35,27 @@ class UNQfy {
 
   getTracksMatchingGenres(genres) {
     // Debe retornar todos los tracks que contengan alguno de los generos en el parametro genres
-    let setAllOfGeneres = new Set();
-
-    genres.array.forEach(genere => {
-      let setOneGenere = this.getAllTracks.filter(t => t.esGenero(genere));
-      setAllOfGeneres = new Set(...setAllOfGeneres, ...setOneGenere);
+    //let setAllOfGeneres = new Set();
+    let tracksConRepetidos = new Array();
+    //console.log("genres: -- "+genres);
+    genres.forEach(genere => {
+      //this.getAllTracks().forEach(t=>console.log("allTracks: ++ name: "+t.name+" | duration: "+t.duration+" | genre: "+t.genres))
+      //console.log("genere: -- "+genere)
+      let setOneGenere = this.getAllTracks().filter(t => t.esGenero(genere));
+      //console.log("setAllOgGeneres: "+setAllOfGeneres);
+      //console.log("setOneGenere: "+setOneGenere);
+      //setAllOfGeneres = new Set(...setAllOfGeneres, ...setOneGenere);
+      tracksConRepetidos = tracksConRepetidos.concat(setOneGenere); 
     });
-
+    let setAllOfGeneres = new Set(tracksConRepetidos);
+    //console.log(setAllOfGeneres);
     return Array.from(setAllOfGeneres);
+    //console.log(tracksConRepetidos)
+    //return tracksConRepetidos;
   }
 
-  getTracksMatchingArtist(artistName) {
+  //Originalmente decia artistName
+  getTracksMatchingArtist(artist) {
     
     /*
     //Artist por la invariante de que no hay artistas con el mismo nombre siempre deberia o ser lista vacia o lista con un solo artista.
@@ -55,8 +65,10 @@ class UNQfy {
 
     return tracks;
     */
-
-    return this.getArtistByName(artistName).getAllTracks();
+    //console.log(this.getArtistByName(artistName));
+    //console.log(this.getArtistByName(artist.name).getAllTracks().length)
+    return this.getArtistByName(artist.name).getAllTracks();
+    //return artis.getAllTracks();
 
     
   }

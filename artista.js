@@ -28,11 +28,14 @@ class Artista {
     }
 
     getAllTracks() {
-        let tracks = new Set();
-        this.albums.forEach(element => {
-            track.add(elem.tracks);
+        //let tracks = new Set();
+        let tracks = new Array()
+        this.albums.forEach(elem => {
+            //tracks.add(elem.tracks);
+            tracks = new Array(...tracks,...elem.tracks);
         });
-        return Array.from(tracks);
+        //return Array.from(tracks);
+        return tracks;
     }
 }
 
