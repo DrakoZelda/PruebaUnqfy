@@ -99,10 +99,10 @@ class UNQfy {
   }
 
   getArtistByName(_name) {
-    console.log("artistas: " + this.artistas)
+    //console.log("artistas: " + this.artistas)
     let artista = this.artistas.filter(a => a.name === _name);
-    console.log("esto es del getArtistByName()")
-    console.log(artista);
+    //console.log("esto es del getArtistByName()")
+    //console.log(artista);
     let ret;
     if (artista.length !== 0) {
       ret = artista[0];
@@ -115,8 +115,7 @@ class UNQfy {
 
   getAllAlbums() {
     let albumes = [];
-    this.artistas.forEach(a => albumes.concat(a.albums));
-
+    this.artistas.forEach(a => albumes = albumes.concat(a.albums));
     return albumes;
   }
 
@@ -126,7 +125,7 @@ class UNQfy {
       return a1.tracks().concat(a2.tracks());
     });*/
     let allTracks = [];
-    this.getAllAlbums().forEach(a => allTracks.concat(a.tracks()));
+    this.getAllAlbums().forEach(a => allTracks = allTracks.concat(a.tracks()));
 
     //Elimino los repetidos haciendo un Set
     let allTracksSinRepetidos = new Set(allTracks);
@@ -151,9 +150,9 @@ class UNQfy {
   */
   getAlbumByName(name) {
     let allAlbums = this.getAllAlbums();
-   /*console.log("allAlbums: -- " + allAlbums);
-    console.log("tipo de allAlbums: --" + typeof(allAlbums));
-    console.log("tipo de array: -- " + typeof([]))*/
+    this.artistas.forEach(a => console.log(a.albums));
+    console.log("allAlbums: -- " + allAlbums);
+    //console.log("tipo de allAlbums: --" + typeof(allAlbums));
     let album = allAlbums.filter(alb => alb.name === name);
     let ret;
 
