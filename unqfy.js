@@ -16,8 +16,22 @@ const Track =  require('./track')
 class UNQfy {
 
   constructor (_artistas, _playlists){
-    this.artistas = _artistas;//Array<Artista>
-    this.playlists = _playlists;//Array<playlist>
+    /*
+    if(_artistas !== null){
+      this.artistas = _artistas;//Array<Artista>
+    } else {
+      this.artistas = new Array();
+    }
+
+    if(_playlists !== null) {
+      this.playlists = _playlists;//Array<playlist>
+    } else {
+      this.playlists = new Array();
+    } 
+    */   
+   this.artistas = new Array();
+   this.playlists = new Array();
+    
   }
 
   getTracksMatchingGenres(genres) {
@@ -55,7 +69,9 @@ class UNQfy {
   */
   addArtist(params) {
     // El objeto artista creado debe soportar (al menos) las propiedades name (string) y country (string)
-    this.artistas.concat(new Artista (params.name, params.country));
+    let nuevoArtista = new Artista (params.name, params.country)
+    this.artistas.concat(nuevoArtista);
+    return nuevoArtista;
   }
 
 
@@ -86,7 +102,7 @@ class UNQfy {
   getArtistByName(_name) {
     let artista = this.artistas.filter(a => a.name === _name);
     let ret;
-    if (artista.length != 0) {
+    if (artista.length !== 0) {
       ret = artista[0];
     } else {
       ret = new Error("no hay un artista con el nombre " + _name)

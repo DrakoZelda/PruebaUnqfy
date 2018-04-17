@@ -16,7 +16,7 @@ class Artista {
         this.country = _country;
 
         if (_albums !== null){
-            this.albums = albums;//Array<Album>
+            this.albums = _albums;//Array<Album>
         } else {
             this.albums = new Array();
         }
