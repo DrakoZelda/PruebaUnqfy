@@ -11,13 +11,13 @@ class Album {
         this.name = _name;
         this.year = _year;
         
-        if (_tracks !== null){
+        if (_tracks !== undefined){
             this.tracks = _tracks; //Array<Track>
         } else {
             this.tracks = new Array()
         }
 
-        if (_autores !== null){
+        if (_autores !== undefined){
             this.autores = _autores; //Va o no va?
         } else {
             this.autores = new Array()

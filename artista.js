@@ -15,16 +15,16 @@ class Artista {
         this.name = _name;
         this.country = _country;
 
-        if (_albums !== null){
-            this.albums = _albums;//Array<Album>
-        } else {
+        if (_albums === undefined){
             this.albums = new Array();
+        } else {
+            this.albums = _albums;//Array<Album>
         }
         
     }
 
     addAlbum(_album) {
-        this.albums.add(_album);
+        this.albums.push(_album);
     }
 
     getAllTracks() {

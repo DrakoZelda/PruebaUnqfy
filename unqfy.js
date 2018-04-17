@@ -16,19 +16,18 @@ const Track =  require('./track')
 class UNQfy {
 
   constructor (_artistas, _playlists){
-    /*
-    if(_artistas !== null){
+    if(_artistas !== undefined){
       this.artistas = _artistas;//Array<Artista>
     } else {
       this.artistas = new Array();
     }
 
-    if(_playlists !== null) {
+    if(_playlists !== undefined) {
       this.playlists = _playlists;//Array<playlist>
     } else {
       this.playlists = new Array();
     } 
-    */   
+       
    this.artistas = new Array();
    this.playlists = new Array();
     
@@ -70,7 +69,7 @@ class UNQfy {
   addArtist(params) {
     // El objeto artista creado debe soportar (al menos) las propiedades name (string) y country (string)
     let nuevoArtista = new Artista (params.name, params.country)
-    this.artistas.concat(nuevoArtista);
+    this.artistas.push(nuevoArtista);
     return nuevoArtista;
   }
 
@@ -81,7 +80,7 @@ class UNQfy {
   */
   addAlbum(artistName, params) {
     // El objeto album creado debe tener (al menos) las propiedades name (string) y year
-    this.getArtistByName.addAlbum(new Album(params.name,params.year));
+    this.getArtistByName(artistName).addAlbum(new Album(params.name,params.year));
   }
 
 
@@ -100,7 +99,10 @@ class UNQfy {
   }
 
   getArtistByName(_name) {
+    console.log("artistas: " + this.artistas)
     let artista = this.artistas.filter(a => a.name === _name);
+    console.log("esto es del getArtistByName()")
+    console.log(artista);
     let ret;
     if (artista.length !== 0) {
       ret = artista[0];
@@ -141,7 +143,9 @@ class UNQfy {
   }
   */
   getAlbumByName(name) {
-    let album = this.getAllAlbums().filter(alb => alb.name === name);
+    let allAlbums = this.getAllAlbums();
+    console.log("allAlbums: -- " + allAlbums);
+    let album = allAlbums.filter(alb => alb.name === name);
     let ret;
 
     if (album.length != 0) {
