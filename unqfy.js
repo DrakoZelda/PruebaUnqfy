@@ -122,9 +122,11 @@ class UNQfy {
 
   getAllTracks() {
     //Consigo todos los Tracks (puede haber repetidos)
-    let allTracks = this.getAllAlbums().reduce(function(a1,a2) {
+    /*let allTracks = this.getAllAlbums().reduce(function(a1,a2) {
       return a1.tracks().concat(a2.tracks());
-    });
+    });*/
+    let allTracks = [];
+    this.getAllAlbums().forEach(a => allTracks.concat(a.tracks()));
 
     //Elimino los repetidos haciendo un Set
     let allTracksSinRepetidos = new Set(allTracks);
