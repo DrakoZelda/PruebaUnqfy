@@ -5,17 +5,17 @@
 class Track {
 
     /*
-    constructor (_name, _duration, _generes) {
+    constructor (_name, _duration, _genres) {
         this.name = _name;//String
         this.duration = this.stringASegundos(_duration);//Int (segundos totales)
-        this.generes = _generes;//String (solo un genero)
+        this.genres = _genres;//String (solo un genero)
     }
     */
 
-    constructor (_name, _duration, _generes) {
+    constructor (_name, _duration, _genres) {
         this.name = _name;//String
         this.duration = _duration//Int (segundos totales)
-        this.generes = _generes;//String (solo un genero)
+        this.genres = _genres;//String (solo un genero)
     }
 
     stringASegundos(str) {
@@ -36,7 +36,7 @@ class Track {
     }
 
     esGenero(genero) {
-        return this.generes === genero;
+        return this.genres === genero;
     }
 
 }

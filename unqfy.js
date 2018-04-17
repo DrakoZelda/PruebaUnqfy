@@ -150,8 +150,8 @@ class UNQfy {
   */
   getAlbumByName(name) {
     let allAlbums = this.getAllAlbums();
-    this.artistas.forEach(a => console.log(a.albums));
-    console.log("allAlbums: -- " + allAlbums);
+    //this.artistas.forEach(a => console.log(a.albums));
+    //console.log("allAlbums: -- " + allAlbums);
     //console.log("tipo de allAlbums: --" + typeof(allAlbums));
     let album = allAlbums.filter(alb => alb.name === name);
     let ret;
