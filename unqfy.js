@@ -125,7 +125,7 @@ class UNQfy {
       return a1.tracks().concat(a2.tracks());
     });*/
     let allTracks = [];
-    this.getAllAlbums().forEach(a => allTracks = allTracks.concat(a.tracks()));
+    this.getAllAlbums().forEach(a => allTracks = allTracks.concat(a.tracks));
 
     //Elimino los repetidos haciendo un Set
     let allTracksSinRepetidos = new Set(allTracks);
@@ -173,7 +173,7 @@ class UNQfy {
 */
 
   getTrackByName(name) {
-    let track = this.getAllTrack().filter(tra => tra.name === name);
+    let track = this.getAllTracks().filter(tra => tra.name === name);
     let ret;
 
     if (track.length != 0) {
