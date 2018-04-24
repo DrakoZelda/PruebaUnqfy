@@ -91,10 +91,7 @@ describe('Add, remove and filter data', () => {
     createAndAddTrack(unqfy, 'Thriller', 'Thriller', 200, ['pop', 'movie']);
     createAndAddTrack(unqfy, 'Thriller', 'Another song', 500, ['classic']);
     createAndAddTrack(unqfy, 'Thriller', 'Another song II', 500, ['movie']);
-    //console.log("nombre artista buscado: "+artist.name)
     const matchingTracks = unqfy.getTracksMatchingArtist(artist);
-    //console.log(unqfy.getAllTracks());
-    //console.log(matchingTracks);
     assert.isArray(matchingTracks);
     assert.lengthOf(matchingTracks, 3);
     assert.isTrue(matchingTracks.includes(t1));
@@ -153,7 +150,7 @@ describe('Playlist Creation and properties', () => {
     unqfy.addPlaylist('my playlist', ['pop', 'rock'], 1400);
     const playlist = unqfy.getPlaylistByName('my playlist');
 
-    //console.log(playlist.name)
+    
     assert.equal(playlist.name, 'my playlist');
     assert.isAtMost(playlist.duration(), 1400);
     assert.isTrue(playlist.hasTrack(t1));

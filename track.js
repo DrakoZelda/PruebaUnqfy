@@ -15,7 +15,7 @@ class Track {
     constructor (_name, _duration, _genres) {
         this.name = _name;//String
         this.duration = _duration//Int (segundos totales)
-        this.genres = _genres;//String (solo un genero)
+        this.genres = _genres;//ArrayStrings
     }
 
     stringASegundos(str) {
@@ -46,10 +46,6 @@ class Track {
             ret = ret || (this.genres === genero);
         });
         return ret;
-    }
-
-    soyUnTrack(){
-        return true;
     }
 
 }

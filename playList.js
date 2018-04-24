@@ -16,13 +16,8 @@ class PlayList {
             return t1.duration + t2.duration;
         },0);*/
         let duracion = 0;
-        /*console.log("ESTOS SON TODOS LOS TRACKS QUE HAY")
-        console.log(this.tracks);
-        console.log("FIN TRACKS QUE HAY")
-        */
+        
         this.tracks.forEach(track => {
-            //console.log("estoy pidiendo duration");
-            //console.log(track);
             duracion += track.duration
         });
         return duracion;

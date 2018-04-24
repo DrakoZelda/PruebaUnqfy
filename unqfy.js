@@ -37,20 +37,14 @@ class UNQfy {
     // Debe retornar todos los tracks que contengan alguno de los generos en el parametro genres
     //let setAllOfGeneres = new Set();
     let tracksConRepetidos = new Array();
-    //console.log("genres: -- "+genres);
     genres.forEach(genere => {
       //this.getAllTracks().forEach(t=>console.log("allTracks: ++ name: "+t.name+" | duration: "+t.duration+" | genre: "+t.genres))
-      //console.log("genere: -- "+genere)
       let setOneGenere = this.getAllTracks().filter(t => t.esGenero(genere));
-      //console.log("setAllOgGeneres: "+setAllOfGeneres);
-      //console.log("setOneGenere: "+setOneGenere);
       //setAllOfGeneres = new Set(...setAllOfGeneres, ...setOneGenere);
       tracksConRepetidos = tracksConRepetidos.concat(setOneGenere); 
     });
     let setAllOfGeneres = new Set(tracksConRepetidos);
-    //console.log(setAllOfGeneres);
     return Array.from(setAllOfGeneres);
-    //console.log(tracksConRepetidos)
     //return tracksConRepetidos;
   }
 
@@ -65,8 +59,6 @@ class UNQfy {
 
     return tracks;
     */
-    //console.log(this.getArtistByName(artistName));
-    //console.log(this.getArtistByName(artist.name).getAllTracks().length)
     return this.getArtistByName(artist.name).getAllTracks();
     //return artis.getAllTracks();
 
@@ -111,10 +103,7 @@ class UNQfy {
   }
 
   getArtistByName(_name) {
-    //console.log("artistas: " + this.artistas)
     let artista = this.artistas.filter(a => a.name === _name);
-    //console.log("esto es del getArtistByName()")
-    //console.log(artista);
     let ret;
     if (artista.length !== 0) {
       ret = artista[0];
@@ -163,8 +152,6 @@ class UNQfy {
   getAlbumByName(name) {
     let allAlbums = this.getAllAlbums();
     //this.artistas.forEach(a => console.log(a.albums));
-    //console.log("allAlbums: -- " + allAlbums);
-    //console.log("tipo de allAlbums: --" + typeof(allAlbums));
     let album = allAlbums.filter(alb => alb.name === name);
     let ret;
 
@@ -223,38 +210,17 @@ class UNQfy {
     */
    //console.log(genresToInclude);
    let cancionesPosibles = this.getTracksMatchingGenres(genresToInclude);
-   /*console.log("canciones posibles")
-   console.log(cancionesPosibles);
-   console.log("fin canciones posibles")
-   console.log("duracion posible maxima:")
-   let totaldetiempo = 0
-   cancionesPosibles.forEach(t => totaldetiempo += t.duration)
-   console.log(totaldetiempo)
-   console.log("duracion maxima querida:")
-   console.log(maxDuration)
-  */
+
    let playListArmada = new Playlist(name, []);
-   //console.log(playListArmada.duration());
-   //console.log(maxDuration)
-   //console.log("no entre")
    while (playListArmada.duration()<maxDuration){
      //console.log("primer while")
     let cargaDeCanciones = [].concat(cancionesPosibles);
-    /*console.log("carga de canciones:")
-    console.log(cargaDeCanciones)*/
     while (playListArmada.duration()<maxDuration && cargaDeCanciones.length!=0) {
-      //console.log("segundo while")
       //playListArmada.agregarTrack(cancionesPosibles.pop())
-      playListArmada.agregarTrack(cargaDeCanciones.pop())
-      //console.log(playListArmada.tracks)
-      //console.log("duracion: "+playListArmada.duration());
+      playListArmada.agregarTrack(cargaDeCanciones.pop());
     }
-    //console.log("fin segundo while")
 
    }
-   
-   //console.log("duracion maxima querida: "+maxDuration)
-   //console.log("duracion final: "+ playListArmada.duration())
 
    this.playlists.push(playListArmada);
   }
