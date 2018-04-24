@@ -86,3 +86,9 @@ getAllTracks
 node main.js getAllTracks
 
 --------------------------------------------------------------------------
+
+getAllPlayLists
+
+node main.js getAllPlayLists
+
+--------------------------------------------------------------------------
