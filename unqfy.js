@@ -27,25 +27,21 @@ class UNQfy {
     } else {
       this.playlists = new Array();
     } 
-       
-   this.artistas = new Array();
-   this.playlists = new Array();
     
   }
 
   getTracksMatchingGenres(genres) {
     // Debe retornar todos los tracks que contengan alguno de los generos en el parametro genres
-    //let setAllOfGeneres = new Set();
     let tracksConRepetidos = new Array();
     genres.forEach(genere => {
-      //this.getAllTracks().forEach(t=>console.log("allTracks: ++ name: "+t.name+" | duration: "+t.duration+" | genre: "+t.genres))
+
       let setOneGenere = this.getAllTracks().filter(t => t.esGenero(genere));
-      //setAllOfGeneres = new Set(...setAllOfGeneres, ...setOneGenere);
+
       tracksConRepetidos = tracksConRepetidos.concat(setOneGenere); 
     });
     let setAllOfGeneres = new Set(tracksConRepetidos);
     return Array.from(setAllOfGeneres);
-    //return tracksConRepetidos;
+
   }
 
   //Originalmente decia artistName
@@ -108,10 +104,9 @@ class UNQfy {
     if (artista.length !== 0) {
       ret = artista[0];
     } else {
-      ret = new Error("no hay un artista con el nombre " + _name)
+      throw new Error("no hay un artista con el nombre " + _name)
     }
     return ret;
-    //return this.artistas.filter(a => a.name.includes(_name));
   }
 
   getAllAlbums() {
@@ -133,12 +128,6 @@ class UNQfy {
 
     //Retorno un Array formado en base al Set
     return Array.from(allTracksSinRepetidos);
-    //return [...allTracksSinRepetidos];
-    //return allTracksSinRepetidos;
-    /*let array = [];
-    allTracksSinRepetidos.forEach(v => array.push(v));
-    return array;
-    */
   }
 
   /*
@@ -158,7 +147,7 @@ class UNQfy {
     if (album.length != 0) {
       ret = album[0];
     } else {
-      ret = new Error("no hay un album con el nombre " + name)
+      throw new Error("no hay un album con el nombre " + name)
     }
     return ret;
   }
@@ -178,7 +167,7 @@ class UNQfy {
     if (track.length != 0) {
       ret = track[0];
     } else {
-      ret = new Error("no hay un track con el nombre " + name)
+      throw new Error("no hay un track con el nombre " + name)
     }
     return ret;
   }
@@ -197,7 +186,7 @@ class UNQfy {
     if (playList.length != 0) {
       ret = playList[0];
     } else {
-      ret = new Error("no hay una playlist con el nombre " + name)
+      throw new Error("no hay una playlist con el nombre " + name)
     }
     return ret;
   }
@@ -208,19 +197,22 @@ class UNQfy {
       * un metodo duration() que retorne la duración de la playlist.
       * un metodo hasTrack(aTrack) que retorna true si aTrack se encuentra en la playlist
     */
-   //console.log(genresToInclude);
+
+    //Si las canciones posibles no son suficientes para alcanzar el tiempo pedido, se comenzaran a repetir canciones.
    let cancionesPosibles = this.getTracksMatchingGenres(genresToInclude);
 
    let playListArmada = new Playlist(name, []);
+   if(!cancionesPosibles.length>0){
+    throw new Error("No hay canciones candidatas");
+   }
    while (playListArmada.duration()<maxDuration){
-     //console.log("primer while")
     let cargaDeCanciones = [].concat(cancionesPosibles);
     while (playListArmada.duration()<maxDuration && cargaDeCanciones.length!=0) {
-      //playListArmada.agregarTrack(cancionesPosibles.pop())
       playListArmada.agregarTrack(cargaDeCanciones.pop());
     }
 
    }
+
 
    this.playlists.push(playListArmada);
   }

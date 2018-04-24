@@ -20,7 +20,7 @@ function saveUNQfy(unqfy, filename) {
 }
 
 function main() {
-  let unqfy = getUNQfy("BunkerDeAdolfito");
+  let unqfy = getUNQfy("BaseDeDatos");
 
   let params = process.argv.slice(2);
 
@@ -33,7 +33,7 @@ function main() {
         } 
 
         case "addAlbum":{
-            unqfy.addAlbum(params[1], {name: params[2], year: params[3]});
+            unqfy.addAlbum(params[1], {name: params[2], year: parseInt(params[3])});
             break;
         }
 
@@ -43,13 +43,13 @@ function main() {
         }
 
         case "addPlaylist":{
-            console.log(params[2].substring(1,params[2].length-1).split(","));
-            unqfy.addPlaylist(params[1], params[2].substring(1,params[2].length-1).split(","), params[3]);
+            //console.log(params[2].substring(1,params[2].length-1).split(","));
+            unqfy.addPlaylist(params[1], params[2].substring(1,params[2].length-1).split(","), parseInt(params[3]));
             break;
         }
         
         case "getTracksMatchingGenres":{
-            console.log(params[1].substring(1, params[1].length-1).split(','));
+            //console.log(params[1].substring(1, params[1].length-1).split(','));
             unqfy.getTracksMatchingGenres(params[1].substring(1, params[1].length-1).split(','));
             break;
         }
@@ -86,6 +86,11 @@ function main() {
 
         case "getAllTracks":{
             console.log(unqfy.getAllTracks());
+            break;
+        }
+
+        case "getAllPlayLists":{
+            console.log(unqfy.playlists);
             break;
         }
 

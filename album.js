@@ -25,15 +25,6 @@ class Album {
     }
     
 
-    /*
-    constructor(args) {
-        this.name = args.name;
-        this.year = args.year;
-        this.tracks = new Array();
-        this.autores = new Array(); //va o no va?
-    }
-    */
-
     //Tiene que devolver la duracion total del album.
     duration() {
         return this.tracks.reduce(function(t1,t2){

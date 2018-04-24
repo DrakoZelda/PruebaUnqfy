@@ -14,7 +14,14 @@ class Track {
 
     constructor (_name, _duration, _genres) {
         this.name = _name;//String
-        this.duration = _duration//Int (segundos totales)
+
+        if (new String(_duration).indexOf(":")!==-1){
+            this.duration = this.stringASegundos(_duration);
+        } else {
+            this.duration = _duration//Int (segundos totales)
+        }
+        //this.duration = _duration//Int (segundos totales)
+        
         this.genres = _genres;//ArrayStrings
     }
 
@@ -22,7 +29,6 @@ class Track {
         //Parseo el formato "minutos":"segundos"
         let minutos = /\d+:/.exec(str)[0];
         minutos = minutos.substring(0,minutos.length-1);
-
         let segundos = /:\d+$/.exec(str)[0];
         segundos = segundos.substring(1,);
 
