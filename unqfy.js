@@ -223,20 +223,44 @@ class UNQfy {
     */
    //console.log(genresToInclude);
    let cancionesPosibles = this.getTracksMatchingGenres(genresToInclude);
-   //console.log(cancionesPosibles);
-
+   /*console.log("canciones posibles")
+   console.log(cancionesPosibles);
+   console.log("fin canciones posibles")
+   console.log("duracion posible maxima:")
+   let totaldetiempo = 0
+   cancionesPosibles.forEach(t => totaldetiempo += t.duration)
+   console.log(totaldetiempo)
+   console.log("duracion maxima querida:")
+   console.log(maxDuration)
+  */
    let playListArmada = new Playlist(name, []);
    //console.log(playListArmada.duration());
    //console.log(maxDuration)
-   while (playListArmada.duration()<maxDuration) {
-     playListArmada.agregarTrack(cancionesPosibles.pop())
-     //console.log(playListArmada.tracks)
-     //console.log("duracion: "+playListArmada.duration());
+   //console.log("no entre")
+   while (playListArmada.duration()<maxDuration){
+     //console.log("primer while")
+    let cargaDeCanciones = [].concat(cancionesPosibles);
+    /*console.log("carga de canciones:")
+    console.log(cargaDeCanciones)*/
+    while (playListArmada.duration()<maxDuration && cargaDeCanciones.length!=0) {
+      //console.log("segundo while")
+      //playListArmada.agregarTrack(cancionesPosibles.pop())
+      playListArmada.agregarTrack(cargaDeCanciones.pop())
+      //console.log(playListArmada.tracks)
+      //console.log("duracion: "+playListArmada.duration());
+    }
+    //console.log("fin segundo while")
+
    }
+   
+   //console.log("duracion maxima querida: "+maxDuration)
+   //console.log("duracion final: "+ playListArmada.duration())
+
    this.playlists.push(playListArmada);
   }
 
-  save(filename = 'unqfy.json') {
+  //save(filename = 'unqfy.json') {
+  save(filename) {
     new picklejs.FileSerializer().serialize(filename, this);
   }
 
