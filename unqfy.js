@@ -26,8 +26,8 @@ class UNQfy {
       this.playlists = _playlists;//Array<playlist>
     } else {
       this.playlists = new Array();
-    } 
-    
+    }
+
   }
 
   getTracksMatchingGenres(genres) {
@@ -37,7 +37,7 @@ class UNQfy {
 
       let setOneGenere = this.getAllTracks().filter(t => t.esGenero(genere));
 
-      tracksConRepetidos = tracksConRepetidos.concat(setOneGenere); 
+      tracksConRepetidos = tracksConRepetidos.concat(setOneGenere);
     });
     let setAllOfGeneres = new Set(tracksConRepetidos);
     return Array.from(setAllOfGeneres);
@@ -46,7 +46,7 @@ class UNQfy {
 
   //Originalmente decia artistName
   getTracksMatchingArtist(artist) {
-    
+
     /*
     //Artist por la invariante de que no hay artistas con el mismo nombre siempre deberia o ser lista vacia o lista con un solo artista.
     let artist = this.artistas.filter(artista => artista.name === artistName);
@@ -58,7 +58,7 @@ class UNQfy {
     return this.getArtistByName(artist.name).getAllTracks();
     //return artis.getAllTracks();
 
-    
+
   }
 
 
@@ -66,13 +66,37 @@ class UNQfy {
      params.name (string)
      params.country (string)
   */
-  addArtist(params) {
+  addArtist (params) {
     // El objeto artista creado debe soportar (al menos) las propiedades name (string) y country (string)
-    let nuevoArtista = new Artista (params.name, params.country)
+    let nuevoArtista = new Artista (params.name, params.country);
+    if(this.artistas.indexOf(nuevoArtista) < 0){
     this.artistas.push(nuevoArtista);
     return nuevoArtista;
+    }
+    else{
+      throw new Error('el artista ya existe');
+    }
   }
 
+  getArtistById (artistId) {
+    let artista = this.artistas.find((artista) => artista.id === artistId);
+    return artista;
+  }
+
+  deleteArtist(artistId) {
+    let artist = this.getArtistById(artistId);
+    let indexArtist = this.artistas.indexOf(artist);
+    if(indexArtist > -1){
+      delete this.artistas[indexArtist];
+    }
+    else{
+      throw new Error("el artista no existe");
+    }
+  }
+
+  searchArtists(artistsName) {
+    return this.artistas.filter(artist => artist.name.toLowerCase().includes(artistsName.toLowerCase()));
+  }
 
   /* Debe soportar al menos:
       params.name (string)
@@ -81,6 +105,18 @@ class UNQfy {
   addAlbum(artistName, params) {
     // El objeto album creado debe tener (al menos) las propiedades name (string) y year
     this.getArtistByName(artistName).addAlbum(new Album(params.name,params.year));
+  }
+
+  addAlbumTo(artistId, params) {
+    let artista = this.getArtistById(artistId);
+    let album = new Album(params.name, params.year);
+    if(artist){
+      artist.addAlbum(album);
+      return album;
+    }
+    else{
+      throw new Error('No existe el artista dado');
+    }
   }
 
 
@@ -151,6 +187,26 @@ class UNQfy {
     }
     return ret;
   }
+
+  getAlbumById(albumId) {
+    let allAlbums = this.getAllAlbum();
+    let album = allAlbums.filter(album => album.id === albumId);
+    let ret;
+
+    if (album.length != 0) {
+      ret = album[0];
+    } else {
+      throw new Error("no hay un album con el id proporcionado");
+    }
+    return ret;
+  }
+
+  searchAlbums(albumsName){
+    let albums = this.getAllAlbums();
+    return albums.filter(album => album.name.toLowerCase().includes(albumsName.toLowerCase()));
+
+  }
+
 /*
   //Verifica por matchin parcial del string recibido como parametro contra el nombre
   getTrackByName(name) {
@@ -233,6 +289,5 @@ class UNQfy {
 
 // TODO: exportar todas las clases que necesiten ser utilizadas desde un modulo cliente
 module.exports = {
-  UNQfy,
+  UNQfy
 };
-

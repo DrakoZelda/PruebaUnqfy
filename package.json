@@ -4,8 +4,11 @@
   "description": "",
   "main": "main.js",
   "dependencies": {
+    "body-parser": "^1.18.3",
     "chai": "^4.1.2",
-    "picklejs": "github:lwoites/picklejs"
+    "express": "^4.16.3",
+    "picklejs": "github:lwoites/picklejs",
+    "request": "^2.87.0"
   },
   "devDependencies": {
     "duration-js": "^4.0.0",
@@ -15,7 +18,8 @@
     "mocha": "^5.0.5"
   },
   "scripts": {
-    "test": "mocha"
+    "test": "mocha",
+    "start": "node index.js"
   },
   "author": "",
   "license": "ISC"

@@ -6,11 +6,11 @@ const Track = require("./track");
 
 class Album {
 
-    
+
     constructor (_name, _year, _tracks, _autores) {
         this.name = _name;
         this.year = _year;
-        
+
         if (_tracks !== undefined){
             this.tracks = _tracks; //Array<Track>
         } else {
@@ -23,7 +23,7 @@ class Album {
             this.autores = new Array()
         }
     }
-    
+
 
     //Tiene que devolver la duracion total del album.
     duration() {
