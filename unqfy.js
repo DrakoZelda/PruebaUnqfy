@@ -1,5 +1,6 @@
 
 const picklejs = require('picklejs');
+const rp = require('request-promise');
 /*
 //ES6 soporta import pero node.js no
 import PlayList from './playList';
@@ -27,6 +28,8 @@ class UNQfy {
     } else {
       this.playlists = new Array();
     }
+
+    this.lastIdArtist = 0;
 
   }
 
@@ -68,19 +71,27 @@ class UNQfy {
   */
   addArtist (params) {
     // El objeto artista creado debe soportar (al menos) las propiedades name (string) y country (string)
-    let nuevoArtista = new Artista (params.name, params.country);
-    if(this.artistas.indexOf(nuevoArtista) < 0){
+    let nuevoArtista = new Artista (this.lastIdArtist,params.name, params.country);
+    //let index = this.artistas.indexOf(nuevoArtista);
+    //if(index < 0){
+    if(!this.existArtistLikeThis(nuevoArtista.name, nuevoArtista.country)) {
+    //this.lastIdArtist++;
+    this.lastIdArtist = this.lastIdArtist + 1;
     this.artistas.push(nuevoArtista);
     return nuevoArtista;
-    }
-    else{
+    }else{
       throw new Error('el artista ya existe');
     }
   }
 
+  existArtistLikeThis(name, country) {
+    return 0 < this.artistas.filter(artist => (artist.name.toLowerCase() == name.toLowerCase()) && (artist.country.toLowerCase() == country.toLowerCase())).length;
+  }
+
   getArtistById (artistId) {
-    let artista = this.artistas.find((artista) => artista.id === artistId);
-    return artista;
+    //let artista = this.artistas.find(artista => artista.id === artistId);
+    let artista = this.artistas.filter(artista => artista.id === artistId);
+    return artista[0];
   }
 
   deleteArtist(artistId) {

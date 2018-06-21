@@ -6,7 +6,7 @@ const Album = require("./album");
 
 class Artista {
 
-    constructor (_id, _name, _country, _albums) {
+    constructor (_id,_name, _country, _albums) {
         this.id = _id;
         this.name = _name;
         this.country = _country;

@@ -8,7 +8,8 @@
     "chai": "^4.1.2",
     "express": "^4.16.3",
     "picklejs": "github:lwoites/picklejs",
-    "request": "^2.87.0"
+    "request": "^2.87.0",
+    "request-promise": "^4.2.2"
   },
   "devDependencies": {
     "duration-js": "^4.0.0",
