@@ -13,6 +13,8 @@ const Artista =  require('./artista')
 const Album =  require('./album')
 const Track =  require('./track')
 
+const apiKey = 'AIzaSyDEdjtx9mEESzDIiNfCeYlvEZVpnWkk_WE';
+const pk = 'BQBUadeskuRnS69RRtJ1nRZgxPm9Ce2XsGrIVSVUQ7keju47dzey0O_EzewsB-b3xufze-imOzkK1wnEo3rgd_L2NKLG1DqFI7TxerFWbnhMyhEemc2k_oxX-sxbGVI6pYb9xlhb8FuBuvUSeB5kv1CDhVcmfaGafRwD'
 
 class UNQfy {
 
@@ -30,6 +32,7 @@ class UNQfy {
     }
 
     this.lastIdArtist = 0;
+    this.lastIdAlbum = 0;
 
   }
 
@@ -68,6 +71,7 @@ class UNQfy {
   /* Debe soportar al menos:
      params.name (string)
      params.country (string)
+     params = {name:... , country:....}
   */
   addArtist (params) {
     // El objeto artista creado debe soportar (al menos) las propiedades name (string) y country (string)
@@ -75,34 +79,136 @@ class UNQfy {
     //let index = this.artistas.indexOf(nuevoArtista);
     //if(index < 0){
     if(!this.existArtistLikeThis(nuevoArtista.name, nuevoArtista.country)) {
-    //this.lastIdArtist++;
-    this.lastIdArtist = this.lastIdArtist + 1;
-    this.artistas.push(nuevoArtista);
-    return nuevoArtista;
+      //this.lastIdArtist++;
+      
+      //this.lastIdArtist = this.lastIdArtist + 1;
+      //this.artistas.push(nuevoArtista);
+      /*
+      let promesaYoutube = this.youtube(nuevoArtista).then(artistaCargado => {
+        this.lastIdArtist = this.lastIdArtist + 1;
+        this.artistas.push(nuevoArtista);
+        return nuevoArtista;
+      })
+      */
+
+      /*let promesaSpotify = promesaYoutube.then(artistaYoutube => {
+        let promesaSpotify = this.populateAlbumsArtistSpotify(artistaYoutube);
+        return promesaSpotify.then(artistaSpotifyYYoutube => artistaSpotifyYYoutube)
+      });
+      */
+      //let promesaSpotify = promesaYoutube.then(artistaYoutube => this.populateAlbumsArtistSpotify(artistaYoutube));
+
+      return this.youtube(nuevoArtista).then(artistYoutube => this.populateAlbumsArtistSpotify(artistYoutube)).then(artistaCargado => {
+        this.lastIdArtist = this.lastIdArtist + 1;
+        this.artistas.push(artistaCargado);
+        console.log('ultima promesa')
+        console.log(artistaCargado)
+        return artistaCargado;
+      });
+
+      //return promesaSpotify;
+      //return nuevoArtista;
     }else{
       throw new Error('el artista ya existe');
     }
   }
 
-  existArtistLikeThis(name, country) {
-    return 0 < this.artistas.filter(artist => (artist.name.toLowerCase() == name.toLowerCase()) && (artist.country.toLowerCase() == country.toLowerCase())).length;
+  //addArtist original hasta youtube, sin lo de spotify que lo hice para jugar
+  /*
+  addArtist (params) {
+    // El objeto artista creado debe soportar (al menos) las propiedades name (string) y country (string)
+    let nuevoArtista = new Artista (this.lastIdArtist,params.name, params.country);
+    //let index = this.artistas.indexOf(nuevoArtista);
+    //if(index < 0){
+    if(!this.existArtistLikeThis(nuevoArtista.name, nuevoArtista.country)) {
+      //this.lastIdArtist++;
+      
+      //this.lastIdArtist = this.lastIdArtist + 1;
+      //this.artistas.push(nuevoArtista);
+      return this.youtube(nuevoArtista).then(artistaCargado => {
+        this.lastIdArtist = this.lastIdArtist + 1;
+        this.artistas.push(nuevoArtista);
+        return nuevoArtista;
+      });
+      //return nuevoArtista;
+    }else{
+      throw new Error('el artista ya existe');
+    }
+  }
+  */
+
+  NUEVOaddArtist (params) {
+
+    let promesaId = this.getIdSpotifyArtistName(params.name)
+
+    promesaId.then((idSpotify) => {
+      
+      // El objeto artista creado debe soportar (al menos) las propiedades name (string) y country (string)
+      let nuevoArtista = new Artista (this.lastIdArtist,params.name, params.country, [], idSpotify);
+      //let index = this.artistas.indexOf(nuevoArtista);
+      //if(index < 0){
+      if(!this.existArtistLikeThis(nuevoArtista.name, nuevoArtista.country)) {
+      //this.lastIdArtist++;
+      this.lastIdArtist = this.lastIdArtist + 1;
+      this.artistas.push(nuevoArtista);
+      return nuevoArtista;
+      }else{
+        throw new Error('el artista ya existe');
+      }
+
+    }).then(() => console.log(this.artistas));
+    
+  }
+
+  NUEVO2addArtist (params) {
+    
+
+    return this.getIdSpotifyArtistName(params.name).then((idSpotify) => {
+
+      // El objeto artista creado debe soportar (al menos) las propiedades name (string) y country (string)
+      let nuevoArtista = new Artista (this.lastIdArtist,params.name, params.country,[], idSpotify);
+      //let index = this.artistas.indexOf(nuevoArtista);
+      //if(index < 0){
+      if(!this.existArtistLikeThis(nuevoArtista.name, nuevoArtista.country)) {
+      //this.lastIdArtist++;
+      this.lastIdArtist = this.lastIdArtist + 1;
+      this.artistas.push(nuevoArtista);
+      return nuevoArtista;
+      }else{
+        throw new Error('el artista ya existe');
+      }
+
+    });
+
+  }
+
+
+  existArtistLikeThis(_nombre, _pais) {
+    return 0 < this.artistas.filter(artist => (artist.name.toLowerCase() == _nombre.toLowerCase()) && (artist.country.toLowerCase() == _pais.toLowerCase())).length;
   }
 
   getArtistById (artistId) {
     //let artista = this.artistas.find(artista => artista.id === artistId);
-    let artista = this.artistas.filter(artista => artista.id === artistId);
-    return artista[0];
+    let artist = this.artistas.filter(artista => artista.id === artistId);
+    if (artist.length === 0){
+      throw new Error('no hay artista con ese id');
+    } else {
+      return artist[0];
+    }
   }
 
   deleteArtist(artistId) {
-    let artist = this.getArtistById(artistId);
-    let indexArtist = this.artistas.indexOf(artist);
-    if(indexArtist > -1){
-      delete this.artistas[indexArtist];
+    try{
+      let artist = this.getArtistById(artistId);
+      let indexArtist = this.artistas.indexOf(artist);
+      this.artistas.splice(indexArtist,1);
+      // delete this.artistas[indexArtist]; //No uso delete porque agrega null. No reindexa la lista.
+      console.log('unqfy.deleteArtist('+artistId+')');
+      this.deleteArtistNotification(artistId);
+    }catch(e){
+      throw e;
     }
-    else{
-      throw new Error("el artista no existe");
-    }
+
   }
 
   searchArtists(artistsName) {
@@ -110,19 +216,62 @@ class UNQfy {
   }
 
   /* Debe soportar al menos:
+      artistId numero.
       params.name (string)
       params.year (number)
   */
-  addAlbum(artistName, params) {
-    // El objeto album creado debe tener (al menos) las propiedades name (string) y year
-    this.getArtistByName(artistName).addAlbum(new Album(params.name,params.year));
+ addAlbum(artistId, params) {
+  // El objeto album creado debe tener (al menos) las propiedades name (string) y year
+   
+  try {
+     let nuevoAlbum = new Album(this.lastIdAlbum, params.name, params.year);
+     let artista = this.getArtistById(artistId);
+     artista.addAlbum(nuevoAlbum);
+     this.lastIdAlbum++;
+     this.notify(artistId,artista.name,nuevoAlbum.name);
+     return nuevoAlbum;
+   } catch (error) {
+     throw error;
+   }
+   
+}
+/* Debe soportar al menos:
+      params.name (string)
+      params.year (number)
+  */
+  // addAlbum(artistName, params) {
+  //   // El objeto album creado debe tener (al menos) las propiedades name (string) y year
+  //   this.getArtistByName(artistName).addAlbum(new Album(params.name,params.year));
+  // }
+  
+
+  deleteAlbum(albumId) {
+    try{
+      let artistaConAlbum = this.artistWithAlbum(albumId);
+      artistaConAlbum.deleteAlbum(albumId);
+    }catch (error) {
+      throw error;
+    }
+  }
+
+  artistWithAlbum(albumId) {
+    let findArtista = this.artistas.find((artista) => artista.haveAlbum(albumId));
+    if(findArtista !== undefined) {
+      return findArtista;
+    } else {
+      throw new Error("No existe el album");
+    }
   }
 
   addAlbumTo(artistId, params) {
     let artista = this.getArtistById(artistId);
-    let album = new Album(params.name, params.year);
-    if(artist){
-      artist.addAlbum(album);
+    console.log('name: '+params.name)
+    console.log('year: '+params.year)
+    let album = new Album(this.lastIdAlbum,params.name, params.year);
+    if(artista){
+      console.log(album);
+      artista.addAlbum(album);
+      this.notify(artistId,artista.name,album.name);
       return album;
     }
     else{
@@ -200,7 +349,7 @@ class UNQfy {
   }
 
   getAlbumById(albumId) {
-    let allAlbums = this.getAllAlbum();
+    let allAlbums = this.getAllAlbums();
     let album = allAlbums.filter(album => album.id === albumId);
     let ret;
 
@@ -212,10 +361,13 @@ class UNQfy {
     return ret;
   }
 
+  getAlbumsForArtist(_artistName) {
+    return this.getArtistByName(_artistName).albums;
+  }
+
   searchAlbums(albumsName){
     let albums = this.getAllAlbums();
     return albums.filter(album => album.name.toLowerCase().includes(albumsName.toLowerCase()));
-
   }
 
 /*
@@ -246,6 +398,8 @@ class UNQfy {
   }
   */
 
+ 
+ 
  getPlaylistByName(name) {
     let playList = this.playlists.filter(play => play.name === name);
     let ret;
@@ -284,6 +438,209 @@ class UNQfy {
    this.playlists.push(playListArmada);
   }
 
+  existArtistId(_artistId){
+    let artista = this.artistas.filter(a => a.id === _artistId);
+    return artista.length !== 0;
+  }
+
+  addAlbumSpotify(_artist, params) {
+    try {
+      let nuevoAlbum = new Album(this.lastIdAlbum, params.name, params.year);
+      _artist.addAlbum(nuevoAlbum);
+      this.lastIdAlbum++;
+      //this.notify(_artist.id,_artist.name,nuevoAlbum.name);
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  populateAlbumsArtistSpotify(_artist) {
+
+    
+    let promiseIdArtis = this.getIdSpotifyArtistName(_artist.name);
+
+
+    return promiseIdArtis.then((idArtist) => {
+
+      let options = {
+        url: 'https://api.spotify.com/v1/artists/'+idArtist+'/albums?limit=10',
+         headers: { Authorization: 'Bearer ' + pk },
+         json: true,
+       };
+
+       return rp.get(options).then((albums) => {
+
+        albums.items.forEach((album) => {
+
+          let yearFormated = this.castYear(album.release_date, album.release_date_precision);
+
+          this.addAlbumSpotify(_artist,{name:album.name, year:yearFormated});
+
+        });
+
+        return _artist;
+
+       });
+    }).then(artista => {
+      console.log(artista)
+      return artista
+   }).catch(e => {throw e})//.then(() => console.log(this.getAlbumsForArtist(_nameArtist)) );//Esto se saca, es para testing
+;
+   
+  }
+
+  populateAlbumsForArtist(_nameArtist) {
+
+    let promiseIdArtis = this.getIdSpotifyArtistName(_nameArtist);
+
+
+    promiseIdArtis.then((idArtist) => {
+
+      let options = {
+        url: 'https://api.spotify.com/v1/artists/'+idArtist+'/albums?limit=10',
+         headers: { Authorization: 'Bearer ' + pk },
+         json: true,
+       };
+
+       rp.get(options).then((albums) => {
+
+        albums.items.forEach((album) => {
+
+          let yearFormated = this.castYear(album.release_date, album.release_date_precision);
+
+          this.addAlbum(_nameArtist,{name:album.name, year:yearFormated});
+
+        });
+
+       }).then(() => console.log(this.getAlbumsForArtist(_nameArtist)) );//Esto se saca, es para testing
+
+    });
+  
+
+    // Forma con el id como propiedad del artista
+
+    // let idArtist = this.getArtistByName(_nameArtist).idSpotify;
+
+    // let options = {
+    //       url: 'https://api.spotify.com/v1/artists/'+idArtist+'/albums?limit=10',
+    //        headers: { Authorization: 'Bearer ' + pk },
+    //        json: true,
+    //      };
+  
+    // rp.get(options).then((albums) => {
+
+    // albums.items.forEach((album) => {
+
+    //   let yearFormated = this.castYear(album.release_date, album.release_date_precision);
+
+    //   this.addAlbum(_nameArtist,{name:album.name, year:yearFormated});
+
+    // });
+
+    // }).then(() => console.log(this.getAlbumsForArtist(_nameArtist)) );//Esto se saca, es para testing
+    
+  }
+
+  castYear(date,precision) {
+    if(precision === 'year') {
+      return date;
+    }
+    if(precision === 'day') {
+      return date.substring(0,4);
+    }
+  }
+  
+  getAlbumsArtistSpotify(_idArtistSpoify) {
+  
+    let options = {
+      // url: 'https://api.spotify.com/v1/artists/'+idSpotifyArtist,
+      url: 'https://api.spotify.com/v1/artists/'+_idArtistSpoify+'/albums?limit=10',
+       headers: { Authorization: 'Bearer ' + pk },
+       json: true,
+     };
+     rp.get(options).then((response) => console.log(response.items));
+  
+  }
+  
+  //Retorna una promesa con el id
+  getIdSpotifyArtistName(_artistName) {
+    let options = {
+      url: 'https://api.spotify.com/v1/search?q='+_artistName+'&type=artist',
+       headers: { Authorization: 'Bearer ' + pk },
+       json: true,
+     };
+     return rp.get(options).then((response) => (response.artists.items[0].id));
+  }
+
+
+  //TRABAJO 29/07/2018
+
+  notify(_idArtist,_nameArtist,_albumName){
+    let options = {
+      method: 'POST',
+      url: 'http://localhost:5001/api/notify',
+      body: {
+        artistId: _idArtist,
+        subject:'Nuevo Album para artista '+ _nameArtist,
+        message:'Se ha agregado el album "'+ _albumName +'" al artista '+ _nameArtist,
+        from:'UNQfy <UNQfy.notifications@gmail.com>'
+      },
+       json: true
+     };
+     console.log('options')
+     console.log(options)
+     console.log(options.body)
+     return rp.post(options).then((response) => response).catch((e) => {
+      console.log('notify exploto') 
+      throw e
+    });
+  }
+
+  deleteArtistNotification(_idArtist) {
+    console.log('unqfy.deleteArtistNotification('+_idArtist+')')
+    let options = {
+      method: 'DELETE',
+      url: 'http://localhost:5001/api/deleteFeed',
+      body: {
+        artistId: _idArtist
+      },
+      json: true
+    };
+    console.log('body.artistId: '+options.body.artistId)
+    return rp.del(options).then((response) => {
+      console.log('se envio bien')
+      response
+    }).catch((e) => {
+      console.log('unqfy.deleteArtist() exploto');
+      throw e;
+    });
+  }
+
+  youtube(_artist) {
+    let options = {
+      method: 'GET',
+      url: 'https://www.googleapis.com/youtube/v3/search',
+      qs: {
+          part: 'snippet',
+          maxResults: '10',
+          q: _artist.name,
+          type: 'video',
+          fields: 'items/id/videoId',
+          key: apiKey
+      },
+      json:true
+    }
+    return rp.get(options).then((responseVideos) => {
+      let videos = responseVideos.items.map(item => 'https://www.youtube.com/watch?v='+item.id.videoId);
+      _artist.videos = videos;
+      return _artist;
+    }).catch((e) => {
+      throw e;
+    })
+  }
+
+  //FIN TRABAJO 29/07/2018
+
   //save(filename = 'unqfy.json') {
   save(filename) {
     new picklejs.FileSerializer().serialize(filename, this);
@@ -302,3 +659,35 @@ class UNQfy {
 module.exports = {
   UNQfy
 };
+
+//pk = 'BQD7TQ9BkEzHr8p-ZIzNAv7e42wUHxFm4fxK0Hp-5cayL6KKg0dfqmy3QUQTsCTkwVNYY328th4qT26jT9JeTpuZVj1u955T_pf0Q4Ix9k1eGwXlDypiX7UwA8yPM4mmOOX8xwOCVJOWGpk1QIIo73vZ-PN6rGA9pdif';
+var instanciaUnqfy = new UNQfy();
+// console.log("Artistas de Unqfy:")
+// console.log(instanciaUnqfy.artistas);
+// console.log("---------------------------")
+// console.log('artist id')
+// instanciaUnqfy.populateAlbumsForArtist('tania bowra','BQDDA7ns-V1hzcdLEsCiUL16S-4njCsOgylyEWSjYs25wFku4sGnnbcj8ykSHcYQmuqPzxMYEO0y5Zy3WHQHwZdpjsV5WQTq7Bubii1bTCfn3sitdeBC8hwDln1t-IiBVHmURhZ7QQi-9o-taaKDl3jKCmNxI8hThNTt');
+// console.log("---------------------------")
+// console.log("Artistas de Unqfy:")
+// console.log(instanciaUnqfy.artistas);
+// console.log("Esto se ejecuto");
+
+// instanciaUnqfy.NUEVOaddArtist({name:'tania bowra', country:'USA'});
+
+
+// console.log(instanciaUnqfy.artistas);
+// console.log(instanciaUnqfy.getIdSpotifyArtistName('tania bowra'));
+
+// instanciaUnqfy.addArtist({name:'tania bowra',country:'USA'});
+
+//Ejemplo funcional
+// instanciaUnqfy.NUEVO2addArtist({name:'tania bowra',country:'USA'}).then(() => 
+// instanciaUnqfy.populateAlbumsForArtist('tania bowra'));
+
+let cancionNueva = new Track("Despacito",200,["Cumbion"]);
+// cancionNueva.loadLyricsMusixMatch();
+console.log(cancionNueva.getLyrics());
+// cancionNueva.getTrackIdMusixMatch();
+
+
+

@@ -7,7 +7,8 @@ const Track = require("./track");
 class Album {
 
 
-    constructor (_name, _year, _tracks, _autores) {
+    constructor (_id,_name, _year, _tracks) {
+        this.id = _id;
         this.name = _name;
         this.year = _year;
 
@@ -17,11 +18,11 @@ class Album {
             this.tracks = new Array()
         }
 
-        if (_autores !== undefined){
-            this.autores = _autores; //Va o no va?
-        } else {
-            this.autores = new Array()
-        }
+        // if (_autores !== undefined){
+        //     this.autores = _autores; //Va o no va?
+        // } else {
+        //     this.autores = new Array()
+        // }
     }
 
 
