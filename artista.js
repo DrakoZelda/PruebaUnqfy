@@ -17,11 +17,15 @@ class Artista {
             this.albums = _albums;//Array<Album>
         }
 
+        //INICIO forma con youtube y spotify
+
         if (_videos === undefined){
             this.videos = new Array();
         } else {
             this.videos = _videos;//Array<String>
         }
+
+        //FIN forma con youtube y spotify
 
         // if (_idSpotify === undefined) {
         //     this.idSpotify = null;
@@ -35,6 +39,7 @@ class Artista {
         if(this.haveSimilarAlbum(_album)){
             console.log('artista.addAlbum()')
             console.log('album: '+_album)
+            console.log(_album[0])
             throw new Error ("Album duplicado")
         } else {
             this.albums.push(_album);
@@ -42,7 +47,11 @@ class Artista {
     }
 
     haveSimilarAlbum(_album) {
+        console.log('Album que se quiere cargar')
+        console.log(_album)
         let findAlbum = this.albums.find((album) => album.name === _album.name);
+        console.log('Album similar encontrado')
+        console.log(findAlbum)
         return findAlbum !== undefined;
     }
 

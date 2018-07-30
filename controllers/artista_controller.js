@@ -59,17 +59,31 @@ function saveArtist (req, res) {
   } else {
 
     try{
+      //INICIO forma con youtube y spotify
+      
       let artist = unqfyA.addArtist({name:nombre, country:pais});
       artist.then(artista => {
         guardar(unqfyA);
         res.status(200).send(artista);
       })
+      
+     //FIN forma con youtube y spotify
+
+      //INICIO forma normal
+      /*
+      let artist = unqfyA.addArtist({name:nombre, country:pais});
+      guardar(unqfyA);
+      res.status(200).send(artist);
+      */
+      //FIN forma normal
+
       //saveUNQfy(unqfyA, nombreBase);
       
       //guardar(unqfyA);
       //res.status(200).send(artist);
     }catch(e){
       // res.status(409).send('RESOURCE_ALREADY_EXISTS');
+      //console.log(e)
       res.status(409).send({status:409,errorCode:"RESOURCE_ALREADY_EXISTS"});
     }
 

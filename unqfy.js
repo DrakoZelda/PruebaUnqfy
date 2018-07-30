@@ -13,8 +13,10 @@ const Artista =  require('./artista')
 const Album =  require('./album')
 const Track =  require('./track')
 
+//youtube key
 const apiKey = 'AIzaSyDEdjtx9mEESzDIiNfCeYlvEZVpnWkk_WE';
-const pk = 'BQBUadeskuRnS69RRtJ1nRZgxPm9Ce2XsGrIVSVUQ7keju47dzey0O_EzewsB-b3xufze-imOzkK1wnEo3rgd_L2NKLG1DqFI7TxerFWbnhMyhEemc2k_oxX-sxbGVI6pYb9xlhb8FuBuvUSeB5kv1CDhVcmfaGafRwD'
+//spotify key
+const pk = 'BQAYR58BrI7KpwGhXtFUWBHkUBujs_cTKTRr9WoRYpFOgD2ppVqONKVNEpc1zQCmBZTuZVexzfUV5O9LF3knXsBvMSIC1_q4CrVjKoepgt25ML591S4IFX20FfEynvl6Rxl1GpG5SReXAMqRmE0DdZ6Cy3tGNpWDuJU1'
 
 class UNQfy {
 
@@ -73,31 +75,13 @@ class UNQfy {
      params.country (string)
      params = {name:... , country:....}
   */
-  addArtist (params) {
-    // El objeto artista creado debe soportar (al menos) las propiedades name (string) y country (string)
+ //addArtist con Youtube y Spotify
+  
+ addArtist (params) {
     let nuevoArtista = new Artista (this.lastIdArtist,params.name, params.country);
-    //let index = this.artistas.indexOf(nuevoArtista);
-    //if(index < 0){
+
     if(!this.existArtistLikeThis(nuevoArtista.name, nuevoArtista.country)) {
-      //this.lastIdArtist++;
       
-      //this.lastIdArtist = this.lastIdArtist + 1;
-      //this.artistas.push(nuevoArtista);
-      /*
-      let promesaYoutube = this.youtube(nuevoArtista).then(artistaCargado => {
-        this.lastIdArtist = this.lastIdArtist + 1;
-        this.artistas.push(nuevoArtista);
-        return nuevoArtista;
-      })
-      */
-
-      /*let promesaSpotify = promesaYoutube.then(artistaYoutube => {
-        let promesaSpotify = this.populateAlbumsArtistSpotify(artistaYoutube);
-        return promesaSpotify.then(artistaSpotifyYYoutube => artistaSpotifyYYoutube)
-      });
-      */
-      //let promesaSpotify = promesaYoutube.then(artistaYoutube => this.populateAlbumsArtistSpotify(artistaYoutube));
-
       return this.youtube(nuevoArtista).then(artistYoutube => this.populateAlbumsArtistSpotify(artistYoutube)).then(artistaCargado => {
         this.lastIdArtist = this.lastIdArtist + 1;
         this.artistas.push(artistaCargado);
@@ -106,12 +90,11 @@ class UNQfy {
         return artistaCargado;
       });
 
-      //return promesaSpotify;
-      //return nuevoArtista;
     }else{
       throw new Error('el artista ya existe');
     }
   }
+  
 
   //addArtist original hasta youtube, sin lo de spotify que lo hice para jugar
   /*
@@ -131,6 +114,21 @@ class UNQfy {
         return nuevoArtista;
       });
       //return nuevoArtista;
+    }else{
+      throw new Error('el artista ya existe');
+    }
+  }
+  */
+
+  //addArtist original, NO youtube y NO spotify
+  /*
+  addArtist (params) {
+    // El objeto artista creado debe soportar (al menos) las propiedades name (string) y country (string)
+    let nuevoArtista = new Artista (this.lastIdArtist,params.name, params.country);
+    if(!this.existArtistLikeThis(nuevoArtista.name, nuevoArtista.country)) {
+      this.lastIdArtist = this.lastIdArtist + 1;
+      this.artistas.push(nuevoArtista);
+      return nuevoArtista;
     }else{
       throw new Error('el artista ya existe');
     }
@@ -445,6 +443,11 @@ class UNQfy {
 
   addAlbumSpotify(_artist, params) {
     try {
+      console.log('addAlbumSpotify')
+      console.log('artista: ')
+      console.log(_artist)
+      console.log('params')
+      console.log(params)
       let nuevoAlbum = new Album(this.lastIdAlbum, params.name, params.year);
       _artist.addAlbum(nuevoAlbum);
       this.lastIdAlbum++;
@@ -474,7 +477,17 @@ class UNQfy {
 
           let yearFormated = this.castYear(album.release_date, album.release_date_precision);
 
-          this.addAlbumSpotify(_artist,{name:album.name, year:yearFormated});
+          try {
+            this.addAlbumSpotify(_artist,{name:album.name, year:yearFormated});
+          } catch (error) {
+            console.log('populateAlbumsArtistSpotify quiso cargar un album "duplicado"')
+            console.log('Artista: '+_artist)
+            console.log('Album:')
+            console.log({name:album.name, year:yearFormated})
+            console.log('ERROR')
+            console.log(error)
+          }
+          //this.addAlbumSpotify(_artist,{name:album.name, year:yearFormated});
 
         });
 
