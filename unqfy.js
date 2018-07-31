@@ -16,7 +16,9 @@ const Track =  require('./track')
 //youtube key
 const apiKey = 'AIzaSyDEdjtx9mEESzDIiNfCeYlvEZVpnWkk_WE';
 //spotify key
-const pk = 'BQAYR58BrI7KpwGhXtFUWBHkUBujs_cTKTRr9WoRYpFOgD2ppVqONKVNEpc1zQCmBZTuZVexzfUV5O9LF3knXsBvMSIC1_q4CrVjKoepgt25ML591S4IFX20FfEynvl6Rxl1GpG5SReXAMqRmE0DdZ6Cy3tGNpWDuJU1'
+const pk = 'BQBqd4GdsnDCqJSAgJt_tGxKuaQWB1BkTOllKJ_lIqv-EAB6INu-eBOLVHWLYQ1t2NG2TYBwFDJaEHQ0n7lld-oZTMEmrTYZlcQVVrEi8gJm6p9o9ITqdW54Aq7TPGNH61N-BO-_SA5IId6zqjokP8RO16HtE4mKAmEu'
+const NOTIFICATION_BASEURL = 'http://' + 'localhost'+ ':' + '5001' + '/api/';
+
 
 class UNQfy {
 
@@ -591,7 +593,7 @@ class UNQfy {
   notify(_idArtist,_nameArtist,_albumName){
     let options = {
       method: 'POST',
-      url: 'http://localhost:5001/api/notify',
+      url: NOTIFICATION_BASEURL + 'notify',
       body: {
         artistId: _idArtist,
         subject:'Nuevo Album para artista '+ _nameArtist,
@@ -613,7 +615,7 @@ class UNQfy {
     console.log('unqfy.deleteArtistNotification('+_idArtist+')')
     let options = {
       method: 'DELETE',
-      url: 'http://localhost:5001/api/deleteFeed',
+      url: NOTIFICATION_BASEURL + 'deleteFeed',
       body: {
         artistId: _idArtist
       },
