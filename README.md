@@ -1,4 +1,7 @@
 # UNQfy
+
+Si hay problemas con picklejs, copiar la carpeta de mismo nombre en "node_modules"
+--------------------------------------------------------------
 Diagrama de clases:
 https://drive.google.com/open?id=1_n-teiyt88CM0-oCGuytzJRvoKCvNmpd
 
