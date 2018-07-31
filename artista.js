@@ -1,7 +1,4 @@
-//import Album from "./album";
 const Album = require("./album");
-//node.js no soporta export
-//export default Artista;
 
 
 class Artista {
@@ -26,12 +23,6 @@ class Artista {
         }
 
         //FIN forma con youtube y spotify
-
-        // if (_idSpotify === undefined) {
-        //     this.idSpotify = null;
-        // } else {
-        //     this.idSpotify = _idSpotify;
-        // }
 
     }
 

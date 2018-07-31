@@ -1,17 +1,7 @@
-//node.js no soporta export
-//export default Track;
 const rp = require('request-promise');
 
 
 class Track {
-
-    /*
-    constructor (_name, _duration, _genres) {
-        this.name = _name;//String
-        this.duration = this.stringASegundos(_duration);//Int (segundos totales)
-        this.genres = _genres;//String (solo un genero)
-    }
-    */
 
     constructor (_name, _duration, _genres, _lyrics) {
         this.name = _name;//String
@@ -21,7 +11,6 @@ class Track {
         } else {
             this.duration = _duration//Int (segundos totales)
         }
-        //this.duration = _duration//Int (segundos totales)
         
         this.genres = _genres;//ArrayStrings
 
@@ -67,8 +56,8 @@ class Track {
 
     getLyrics() {
         if(this.lyrics === ""){
-            this.loadLyricsMusixMatch(); //COMPLETAR, FALTA RETORNAR LA LETRA CONSEGUIDA
-           //let algo = await this.loadLyricsMusixMatch(); //COMPLETAR, FALTA RETORNAR LA LETRA CONSEGUIDA
+            this.loadLyricsMusixMatch(); //NO SE PUEDE RETORNAR LA LETRA CONSEGUIDA
+           //let algo = await this.loadLyricsMusixMatch(); //NO SE PUEDE RETORNAR LA LETRA CONSEGUIDA
             //while(this.lyrics === ""){
                 //console.log("Cargando letra ...")
             //}

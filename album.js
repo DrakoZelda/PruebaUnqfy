@@ -1,7 +1,4 @@
-//import Track from "./track";
 const Track = require("./track");
-//node.js no soporta export
-//export default Album;
 
 
 class Album {
@@ -17,12 +14,6 @@ class Album {
         } else {
             this.tracks = new Array()
         }
-
-        // if (_autores !== undefined){
-        //     this.autores = _autores; //Va o no va?
-        // } else {
-        //     this.autores = new Array()
-        // }
     }
 
 

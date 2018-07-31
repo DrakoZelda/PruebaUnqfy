@@ -48,12 +48,7 @@ function addAlbum (req, res) {
   } else {
 
     try{
-      // let artistaId = parseInt(req.body.artistId);
-      // let nombre = req.body.name;
-      // let año = req.body.year;
-
       let album = unqfyA.addAlbum(artistaId,{name:nombre, year:año});
-      //let album = unqfyA.addAlbumTo(artistaId,{name:nombre, year:año});
       guardar(unqfyA);
       res.status(200).send(album);
     }catch(e){
@@ -64,10 +59,8 @@ function addAlbum (req, res) {
         res.status(404).send({status:404,errorCode:"RELATED_RESOURCE_NOT_FOUND"});
       } else {
         console.log(e)
-        // res.status(500).send(e.message);
         res.status(500).send({status:500,errorCode:"INTERNAL_SERVER_ERROR"});
       }
-      // res.status(409).send('RESOURCE_ALREADY_EXISTS');
       
     }
   }
@@ -108,8 +101,6 @@ function searchAlbums (req, res) {
     res.status(500).send({status:500,errorCode:"INTERNAL_SERVER_ERROR"});
   }
 
-  // let albums = unqfy.searchAlbums(req.query.name);
-  // res.status(200).send(albums);
 }
 
 module.exports = {

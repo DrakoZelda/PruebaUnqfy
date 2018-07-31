@@ -77,10 +77,6 @@ function saveArtist (req, res) {
       */
       //FIN forma normal
 
-      //saveUNQfy(unqfyA, nombreBase);
-      
-      //guardar(unqfyA);
-      //res.status(200).send(artist);
     }catch(e){
       // res.status(409).send('RESOURCE_ALREADY_EXISTS');
       //console.log(e)
@@ -137,21 +133,11 @@ function getExistArtist (req, res) {
   }
 }
 
-function youtube(req,res) {
-  let promiseYoutube = unqfyA.youtube('chayanne torero');
-  promiseYoutube.then(respuesta => {
-    console.log(respuesta)
-    res.status(200).send(respuesta)
-  })
-  //res.status(200).send();
-}
-
 module.exports = {
   getAll,
   getArtist,
   saveArtist,
   deleteArtist,
   searchArtists,
-  getExistArtist,
-  youtube
+  getExistArtist
 }
